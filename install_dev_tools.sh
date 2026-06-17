@@ -1,18 +1,36 @@
 #!/bin/bash
+set -e
 
 echo "Starting installation of dev tools..."
 
 sudo apt update -y
 
-sudo apt install -y curl ca-certificates gnupg lsb-release python3 python3-pip python3-venv
+sudo apt install -y curl ca-certificates gnupg lsb-release
 
-if command -v python3 > /dev/null 2>&1
-then
+python3_meets_requirement() {
+    command -v python3 > /dev/null 2>&1 \
+        && python3 -c "import sys; exit(0 if sys.version_info >= (3, 9) else 1)"
+}
+
+if python3_meets_requirement; then
     echo "Python is already installed:"
     python3 --version
 else
-    echo "Installing Python..."
-    sudo apt install -y python3 python3-pip
+    echo "Installing Python 3.9+..."
+    sudo apt install -y python3 python3-pip python3-venv
+
+    if ! python3_meets_requirement; then
+        echo "Error: Python 3.9 or higher is required." >&2
+        if command -v python3 > /dev/null 2>&1; then
+            python3 --version >&2
+        else
+            echo "Python 3 is not installed." >&2
+        fi
+        exit 1
+    fi
+
+    echo "Python installed:"
+    python3 --version
 fi
 
 if command -v docker > /dev/null 2>&1
