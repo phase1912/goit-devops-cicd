@@ -1,0 +1,35 @@
+replicaCount: 2
+
+image:
+  repository: 123456789012.dkr.ecr.us-west-2.amazonaws.com/lesson-7-ecr
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 8000
+
+config:
+  DB_HOST: db
+  DB_PORT: "5432"
+  POSTGRES_DB: mysite_db
+  POSTGRES_USER: mysite_user
+  POSTGRES_PASSWORD: mysite_pass
+  SECRET_KEY: django-insecure-change-me-in-production
+  DEBUG: "True"
+  ALLOWED_HOSTS: "*"
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 70
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
