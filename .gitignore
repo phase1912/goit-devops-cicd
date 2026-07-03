@@ -1,3 +1,6 @@
+.terraform/
+*.tfstate
+*.tfstate.*
 *.pyc
 __pycache__/
 db.sqlite3

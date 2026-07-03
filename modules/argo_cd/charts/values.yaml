@@ -1,0 +1,6 @@
+app:
+  name: django-app
+  repoURL: https://github.com/phase1912/goit-devops-cicd.git
+  targetRevision: master
+  chartPath: charts/django-app
+  namespace: django
