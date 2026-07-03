@@ -13,14 +13,22 @@ spec:
   - name: jnlp
     image: jenkins/inbound-agent:3283.v92c105e0f819-4
     tty: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 512Mi
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     command: ['/busybox/cat']
     tty: true
-  - name: git
-    image: alpine/git:latest
-    command: ['cat']
-    tty: true
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+      limits:
+        memory: 1Gi
 """
         }
     }
@@ -55,29 +63,25 @@ spec:
 
         stage('Update Helm values') {
             steps {
-                container('git') {
-                    sh '''
-                    cd ${WORKSPACE}
-                    sed -i "s|tag: .*|tag: \\"${BUILD_NUMBER}\\"|" ${HELM_VALUES_PATH}
-                    sed -i "s|repository: .*|repository: ${ECR_URL}|" ${HELM_VALUES_PATH}
-                    '''
-                }
+                sh '''
+                cd ${WORKSPACE}
+                sed -i "s|tag: .*|tag: \\"${BUILD_NUMBER}\\"|" ${HELM_VALUES_PATH}
+                sed -i "s|repository: .*|repository: ${ECR_URL}|" ${HELM_VALUES_PATH}
+                '''
             }
         }
 
         stage('Git push') {
             steps {
-                container('git') {
-                    withCredentials([string(credentialsId: 'github-token', variable: 'GIT_TOKEN')]) {
-                        sh '''
-                        cd ${WORKSPACE}
-                        git config user.email "jenkins@local"
-                        git config user.name "Jenkins"
-                        git add ${HELM_VALUES_PATH}
-                        git commit -m "Update image tag to ${BUILD_NUMBER}" || true
-                        git push https://oauth2:${GIT_TOKEN}@github.com/phase1912/goit-devops-cicd.git HEAD:main
-                        '''
-                    }
+                withCredentials([string(credentialsId: 'github-token', variable: 'GIT_TOKEN')]) {
+                    sh '''
+                    cd ${WORKSPACE}
+                    git config user.email "jenkins@local"
+                    git config user.name "Jenkins"
+                    git add ${HELM_VALUES_PATH}
+                    git commit -m "Update image tag to ${BUILD_NUMBER}" || true
+                    git push https://oauth2:${GIT_TOKEN}@github.com/phase1912/goit-devops-cicd.git HEAD:main
+                    '''
                 }
             }
         }
