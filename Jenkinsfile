@@ -15,20 +15,20 @@ spec:
     tty: true
     resources:
       requests:
-        cpu: 100m
-        memory: 256Mi
+        cpu: 50m
+        memory: 128Mi
       limits:
-        memory: 512Mi
+        memory: 256Mi
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     command: ['/busybox/cat']
     tty: true
     resources:
       requests:
-        cpu: 200m
-        memory: 512Mi
+        cpu: 100m
+        memory: 256Mi
       limits:
-        memory: 1Gi
+        memory: 768Mi
 """
         }
     }
@@ -80,7 +80,7 @@ spec:
                     git config user.name "Jenkins"
                     git add ${HELM_VALUES_PATH}
                     git commit -m "Update image tag to ${BUILD_NUMBER}" || true
-                    git push https://oauth2:${GIT_TOKEN}@github.com/phase1912/goit-devops-cicd.git HEAD:main
+                    git push https://oauth2:${GIT_TOKEN}@github.com/phase1912/goit-devops-cicd.git HEAD:master
                     '''
                 }
             }
