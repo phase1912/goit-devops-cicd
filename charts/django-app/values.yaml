@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: 836809165836.dkr.ecr.us-west-2.amazonaws.com/lesson-8-9-ecr
-  tag: "1"
+  tag: "6"
   pullPolicy: Always
 
 service:
