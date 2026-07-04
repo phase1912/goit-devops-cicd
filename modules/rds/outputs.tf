@@ -37,3 +37,8 @@ output "db_arn" {
   description = "ARN of the database (instance or cluster)"
   value       = var.use_aurora ? aws_rds_cluster.this[0].arn : aws_db_instance.this[0].arn
 }
+
+output "reader_endpoint" {
+  description = "Aurora cluster reader endpoint (empty for RDS instance mode)"
+  value       = var.use_aurora ? aws_rds_cluster.this[0].reader_endpoint : null
+}
