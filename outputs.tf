@@ -10,6 +10,22 @@ output "vpc_id" {
   value = module.vpc.vpc_id
 }
 
+output "db_endpoint" {
+  value = module.rds.db_endpoint
+}
+
+output "db_port" {
+  value = module.rds.db_port
+}
+
+output "db_mode" {
+  value = module.rds.db_mode
+}
+
+output "db_parameter_group_name" {
+  value = module.rds.parameter_group_name
+}
+
 output "ecr_repository_url" {
   value = module.ecr.repository_url
 }
