@@ -2,6 +2,8 @@
 
 Terraform для AWS (S3 backend, VPC, ECR, EKS) і Helm-чарт для Django.
 
+> **Примітка:** Helm-чарт і Django-застосунок перенесено в корінь репозиторію (`charts/django-app/`). Папка `lesson-7/charts/` залишена для довідки; використовуй глобальний чарт.
+
 ## Структура
 
 ```
@@ -14,13 +16,21 @@ lesson-7/
 │   ├── vpc/
 │   ├── ecr/
 │   └── eks/
-├── charts/
-│   └── django-app/
-│       ├── Chart.yaml
-│       ├── values.yaml
-│       └── templates/
 └── README.md
+
+# Глобальний Helm-чарт (корінь репо):
+charts/django-app/
+├── Chart.yaml
+├── values.yaml          # не-секретні змінні (config)
+└── templates/
+    ├── configmap.yaml
+    ├── secret.yaml      # POSTGRES_PASSWORD, SECRET_KEY
+    ├── deployment.yaml
+    ├── service.yaml
+    └── hpa.yaml
 ```
+
+Секретні паролі (`POSTGRES_PASSWORD`, `SECRET_KEY`) винесено з `config` у блок `secrets` у `values.yaml` і монтуються через Kubernetes Secret (`templates/secret.yaml`), а не ConfigMap.
 
 ## Передумови
 
@@ -79,7 +89,7 @@ docker push ${ECR_URL}:latest
 ```bash
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 
-cd lesson-7/charts/django-app
+cd charts/django-app
 helm install django-app . --set image.repository=${ECR_URL}
 kubectl get svc   # EXTERNAL-IP — адреса застосунку
 ```

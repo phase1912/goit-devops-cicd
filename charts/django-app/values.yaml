@@ -1,8 +1,8 @@
 replicaCount: 2
 
 image:
-  repository: 123456789012.dkr.ecr.us-west-2.amazonaws.com/lesson-7-ecr
-  tag: latest
+  repository: 836809165836.dkr.ecr.us-west-2.amazonaws.com/lesson-8-9-ecr
+  tag: "6"
   pullPolicy: Always
 
 service:
