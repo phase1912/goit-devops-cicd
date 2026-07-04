@@ -15,10 +15,12 @@ config:
   DB_PORT: "5432"
   POSTGRES_DB: mysite_db
   POSTGRES_USER: mysite_user
-  POSTGRES_PASSWORD: mysite_pass
-  SECRET_KEY: django-insecure-change-me-in-production
   DEBUG: "True"
   ALLOWED_HOSTS: "*"
+
+secrets:
+  POSTGRES_PASSWORD: mysite_pass
+  SECRET_KEY: django-insecure-change-me-in-production
 
 autoscaling:
   enabled: true
