@@ -27,6 +27,13 @@ Git push → Jenkins (Kaniko) → ECR
 │   ├── jenkins/
 │   └── argo_cd/
 ├── charts/django-app/
+│   ├── values.yaml          # config (не-секретні змінні)
+│   └── templates/
+│       ├── configmap.yaml
+│       ├── secret.yaml      # POSTGRES_PASSWORD, SECRET_KEY
+│       ├── deployment.yaml
+│       ├── service.yaml
+│       └── hpa.yaml
 ├── Jenkinsfile
 ├── screenshots/
 ├── Dockerfile
@@ -35,6 +42,8 @@ Git push → Jenkins (Kaniko) → ECR
 
 На `master` в Git: `Jenkinsfile` + `charts/django-app/`.  
 Terraform (`main.tf`, `modules/`) — на гілці `lesson-8-9`.
+
+Секретні паролі (`POSTGRES_PASSWORD`, `SECRET_KEY`) зберігаються в блоці `secrets` у `values.yaml` і застосовуються через `templates/secret.yaml` (Kubernetes Secret), а не через ConfigMap.
 
 ## Передумови
 
