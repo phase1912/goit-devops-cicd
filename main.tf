@@ -25,7 +25,7 @@ provider "aws" {
 
 module "s3_backend" {
   source      = "./modules/s3-backend"
-  bucket_name = "phase1912-lesson-db-module-terraform-state"
+  bucket_name = "phase1912-final-project-terraform-state"
   table_name  = "terraform-locks"
 }
 
@@ -35,8 +35,8 @@ module "vpc" {
   public_subnets     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
   private_subnets    = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
   availability_zones = ["us-west-2a", "us-west-2b", "us-west-2c"]
-  vpc_name           = "lesson-db-module-vpc"
-  cluster_name       = "lesson-8-9-eks"
+  vpc_name           = "final-project-vpc"
+  cluster_name       = "final-project-eks"
 }
 
 module "rds" {
@@ -49,7 +49,7 @@ module "rds" {
   engine_version      = var.db_engine_version
   instance_class      = var.db_instance_class
   multi_az            = var.db_multi_az
-  identifier          = "lesson-db-module"
+  identifier          = "final-project-db"
   db_name             = "django"
   username            = var.db_username
   password            = var.db_password
@@ -59,18 +59,18 @@ module "rds" {
 
 module "ecr" {
   source       = "./modules/ecr"
-  ecr_name     = "lesson-8-9-ecr"
+  ecr_name     = "final-project-ecr"
   scan_on_push = true
 }
 
 module "eks" {
   source             = "./modules/eks"
-  cluster_name       = "lesson-8-9-eks"
+  cluster_name       = "final-project-eks"
   vpc_id             = module.vpc.vpc_id
   private_subnet_ids = module.vpc.private_subnet_ids
   public_subnet_ids  = module.vpc.public_subnet_ids
   desired_size       = 2
-  max_size           = 2
+  max_size           = 3
 }
 
 provider "kubernetes" {
@@ -97,6 +97,12 @@ provider "helm" {
   }
 }
 
+module "monitoring" {
+  source = "./modules/monitoring"
+
+  depends_on = [module.eks]
+}
+
 module "jenkins" {
   source             = "./modules/jenkins"
   cluster_name       = module.eks.cluster_name
@@ -110,7 +116,7 @@ module "argo_cd" {
   source          = "./modules/argo_cd"
   repo_url        = "https://github.com/phase1912/goit-devops-cicd.git"
   chart_path      = "charts/django-app"
-  target_revision = "master"
+  target_revision = "final-project"
 
   depends_on = [module.jenkins]
 }

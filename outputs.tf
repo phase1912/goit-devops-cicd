@@ -22,10 +22,6 @@ output "db_mode" {
   value = module.rds.db_mode
 }
 
-output "db_parameter_group_name" {
-  value = module.rds.parameter_group_name
-}
-
 output "ecr_repository_url" {
   value = module.ecr.repository_url
 }
@@ -58,4 +54,8 @@ output "argocd_url" {
 output "argocd_admin_password" {
   value     = module.argo_cd.admin_password
   sensitive = true
+}
+
+output "grafana_port_forward" {
+  value = module.monitoring.grafana_port_forward
 }

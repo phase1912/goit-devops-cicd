@@ -35,7 +35,7 @@ spec:
 
     environment {
         AWS_REGION = 'us-west-2'
-        ECR_URL = '836809165836.dkr.ecr.us-west-2.amazonaws.com/lesson-8-9-ecr'
+        ECR_URL = '836809165836.dkr.ecr.us-west-2.amazonaws.com/final-project-ecr'
         HELM_VALUES_PATH = 'charts/django-app/values.yaml'
         GIT_REPO = 'https://github.com/phase1912/goit-devops-cicd.git'
     }
@@ -80,7 +80,7 @@ spec:
                     git config user.name "Jenkins"
                     git add ${HELM_VALUES_PATH}
                     git commit -m "Update image tag to ${BUILD_NUMBER}" || true
-                        git push https://x-access-token:${GIT_TOKEN}@github.com/phase1912/goit-devops-cicd.git HEAD:master
+                        git push https://x-access-token:${GIT_TOKEN}@github.com/phase1912/goit-devops-cicd.git HEAD:final-project
                     '''
                 }
             }

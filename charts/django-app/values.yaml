@@ -1,8 +1,8 @@
 replicaCount: 2
 
 image:
-  repository: 836809165836.dkr.ecr.us-west-2.amazonaws.com/lesson-8-9-ecr
-  tag: "6"
+  repository: 836809165836.dkr.ecr.us-west-2.amazonaws.com/final-project-ecr
+  tag: "latest"
   pullPolicy: Always
 
 service:
@@ -11,15 +11,15 @@ service:
   targetPort: 8000
 
 config:
-  DB_HOST: db
+  DB_HOST: CHANGE_ME_AFTER_TERRAFORM_APPLY
   DB_PORT: "5432"
-  POSTGRES_DB: mysite_db
-  POSTGRES_USER: mysite_user
+  POSTGRES_DB: django
+  POSTGRES_USER: dbadmin
   DEBUG: "True"
   ALLOWED_HOSTS: "*"
 
 secrets:
-  POSTGRES_PASSWORD: mysite_pass
+  POSTGRES_PASSWORD: ChangeMeDbPassword123!
   SECRET_KEY: django-insecure-change-me-in-production
 
 autoscaling:
