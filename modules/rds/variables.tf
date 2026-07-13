@@ -67,3 +67,27 @@ variable "identifier" {
   description = "Prefix for RDS resource names"
   default     = "lesson-db-module"
 }
+
+variable "allocated_storage" {
+  type        = number
+  description = "Allocated storage in GB for RDS instance"
+  default     = 20
+}
+
+variable "storage_type" {
+  type        = string
+  description = "Storage type for RDS instance (gp2, gp3, io1)"
+  default     = "gp2"
+}
+
+variable "backup_retention_period" {
+  type        = number
+  description = "Number of days to retain automated backups"
+  default     = 7
+}
+
+variable "reader_count" {
+  type        = number
+  description = "Number of Aurora reader instances (only when use_aurora is true)"
+  default     = 1
+}
