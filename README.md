@@ -54,7 +54,7 @@ terraform apply -target=module.s3_backend -target=module.vpc \
 
 terraform apply -target=module.monitoring -target=module.jenkins -target=module.argo_cd
 
-mv backend.tf.bak backend.tf
+mv backend.tf.bak backend.tf  
 terraform init -migrate-state
 terraform apply
 ```

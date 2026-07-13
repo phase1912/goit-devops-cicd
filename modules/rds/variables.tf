@@ -82,8 +82,8 @@ variable "storage_type" {
 
 variable "backup_retention_period" {
   type        = number
-  description = "Number of days to retain automated backups"
-  default     = 7
+  description = "Number of days to retain automated backups (use 1 on AWS Free Tier, 7 on paid accounts)"
+  default     = 1
 }
 
 variable "reader_count" {
