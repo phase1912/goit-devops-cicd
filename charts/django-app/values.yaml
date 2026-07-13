@@ -11,7 +11,7 @@ service:
   targetPort: 8000
 
 config:
-  DB_HOST: CHANGE_ME_AFTER_TERRAFORM_APPLY
+  DB_HOST: final-project-db.chgiqqick2qg.us-west-2.rds.amazonaws.com
   DB_PORT: "5432"
   POSTGRES_DB: django
   POSTGRES_USER: dbadmin
